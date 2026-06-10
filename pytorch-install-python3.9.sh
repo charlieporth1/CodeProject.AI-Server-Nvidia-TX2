@@ -54,9 +54,77 @@ python3.9 -m pip install numpy==1.19.5 --ignore-installed
 # python3.9 -m pip install cmake
 
 
-wget https://download-r2.pytorch.org/whl/torch-1.11.0-cp39-cp39-manylinux2014_aarch64.whl#sha256=831cf588f01dda9409e75576741d2823453990dee2983d670f2584b37a01adf7
+git clone --recursive --branch v1.12.0 https://github.com/pytorch/pytorch
+cd pytorch
 
-python3.9 -m pip install *39*.whl
+sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
+
+#git submodule sync
+# git submodule update --init --recursive --jobs 0
+# git submodule update --init --recursive
+cd /app/pytorch/third_party/ios-cmake
+rm .git
+rm *
+git clone https://github.com/leetal/ios-cmake .
+git clone https://github.com/leetal/ios-cmake .
+git clone https://github.com/leetal/ios-cmake .
+git checkout 8abaed637d56f1337d6e1d2c4026e25c1eade724
+
+cd /app/pytorch/third_party/psimd
+rm .git
+rm *
+git clone https://github.com/Maratyszcza/psimd .
+git clone https://github.com/Maratyszcza/psimd .
+git clone https://github.com/Maratyszcza/psimd .
+git checkout 072586a71b55b7f8c584153d223e95687148a900
+
+cd /app/pytorch/third_party/QNNPACK
+rm .git
+rm *
+git clone https://github.com/pytorch/QNNPACK .
+git clone https://github.com/pytorch/QNNPACK .
+git clone https://github.com/pytorch/QNNPACK .
+git checkout 7d2a4e9931a82adc3814275b6219a0af5fa345b6
+
+cd /app/pytorch/third_party/foxi
+rm .git
+rm *
+git clone https://github.com/houseroad/foxi .
+git clone https://github.com/houseroad/foxi .
+git clone https://github.com/houseroad/foxi .
+git checkout c278588e34e535f0bb8f00df3880d26928038cad
+
+touch d
+
+cd /app/pytorch
+ls third_party/pybind11
+
+sed -i 's|"Manages CMake."|import distutils.version|g' /app/pytorch/tools/setup_helpers/cmake.py
+# sed -i 's|cmake_minimum_required\(VERSION 3.1.3)|cmake_minimum_required\(VERSION 3.5)|g' third_party/protobuf/cmake/CMakeLists.txt
+# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 3.1|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/cpuinfo/deps/clog/CMakeLists.txt
+# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 2.8.12|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/FP16/CMakeLists.txt
+# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 2.8.12|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/psimd/CMakeLists.txt
+# sed -i 's|cmake_minimum_required\(VERSION 2.8.12|cmake_minimum_required\(VERSION 3.5|g' third_party/googletest/CMakeLists.txt
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_minimum_required\(VERSION [0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_minimum_required\(VERSION [0-9]+\.[0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/CMAKE_MINIMUM_REQUIRED\(VERSION [0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/CMAKE_MINIMUM_REQUIRED\(VERSION [0-9]+\.[0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
+
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9]+\.[0-9]+/cmake_policy\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9]+\.[0-9]+\.[0-9]+/cmake_policy\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9]+\.[0-9]+/cmake_policy\(VERSION 3.5/g' X
+find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9]+\.[0-9]+\.[0-9]+/cmake_policy\(VERSION 3.5/g' X
+
+#python3.8 -c "import numpy"
+#python3.8 -v setup.py --help
+python3.9 setup.py clean
+# python3.8 etup.py bdist_wheel
+# python3.8 setup.py install bdist_wheel
+python3.9 setup.py build
+python3.9 setup.py install
+python3.9 -m pip install dist/*.whl
+python3.9 -m pip install build/*.whl
+
 
 
 # pip install ultralytics --ignore-installed
@@ -67,6 +135,8 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
+
+exit 0
 
 # pip.6
 # Download the wheel

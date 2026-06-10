@@ -145,24 +145,38 @@ RUN dpkg --configure -a
 
 # https://gemini.google.com/app/220b370ab2f69811
 
+WORKDIR /app/
+
 COPY ./start.sh .
 
-RUN chmod +x *.sh
-COPY ./pytorch-install-python3.8.sh .
-RUN bash ./pytorch-install-python3.8.sh
-
-RUN git clone --recursive --branch v1.12.0 https://github.com/pytorch/pytorch
-
+RUN git clone --branch v1.12.0 https://github.com/pytorch/pytorch
 WORKDIR /app/pytorch
-RUN sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
+
+# RUN sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
 
 RUN git submodule sync
+RUN git submodule update --init --recursive --jobs 0 || exit 0
+RUN git submodule update --init --recursive || exit 0
 RUN git submodule update --init --recursive --jobs 0
 RUN git submodule update --init --recursive
 
 WORKDIR /app/
+RUN chmod +x *.sh
+
+COPY ./pytorch-install-python3.8.sh .
+RUN bash ./pytorch-install-python3.8.sh
+
 COPY ./pytorch-install-python3.9.sh .
 RUN chmod +x *.sh
+
+WORKDIR /app/pytorch
+RUN git checkout -b v1.12.0
+
+RUN git submodule sync
+RUN git submodule update --init --recursive --jobs 0 
+RUN git submodule update --init --recursive
+RUN git submodule update --init --recursive --jobs 0
+RUN git submodule update --init --recursive
 
 RUN bash ./pytorch-install-python3.9.sh
 
@@ -184,6 +198,7 @@ RUN cd /app/src/server; dotnet publish -c Release -o /app/server
 WORKDIR /app/server
 # Expose the default CodeProject.AI port
 EXPOSE 32168
+EXPOSE 5000
 ENV ASPNETCORE_URLS="http://+:32168 http://+:5000"
 # Start the server
 # Use the official server start script as the Entrypoint

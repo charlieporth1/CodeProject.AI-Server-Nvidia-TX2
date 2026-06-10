@@ -8,6 +8,8 @@ sudo ifmetric eth0 100
 sudo ifmetric eth0 100
 
 sudo mount /dev/disk/by-id/usb-MZ7LH480_HBHQ0D3_20211019-0\:0-part2 /mnt/USB
+sudo swapon -a
+sudo swapon /mnt/USB/swapfile
 sudo systemctl start docker docker.socket
 #sudo systemctl status docker
 

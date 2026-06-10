@@ -75,3 +75,4 @@ update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
 update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 # Set environment variables for the Jetson build
+exit 0
