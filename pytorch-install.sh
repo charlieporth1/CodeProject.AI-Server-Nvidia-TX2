@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://qengineering.eu/install-pytorch-on-jetson-nano.html
 curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
 python3.8 get-pip.py
 

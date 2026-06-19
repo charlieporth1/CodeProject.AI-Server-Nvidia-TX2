@@ -1,4 +1,6 @@
 #!/bin/bash
+
+# https://qengineering.eu/install-pytorch-on-jetson-nano.html
 # https://gemini.google.com/app/220b370ab2f69811
 # Py 3.9 pytorch install
 curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py

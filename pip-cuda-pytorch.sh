@@ -1,1 +1,2 @@
+#!/bin/bash
 pip install torch==1.11.0 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu102

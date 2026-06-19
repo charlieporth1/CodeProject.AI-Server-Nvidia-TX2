@@ -1,4 +1,6 @@
 #!/bin/bash
+# https://qengineering.eu/install-pytorch-on-jetson-nano.html
+. /app/runtimes/bin/ubuntu/python38/venv/bin/activate
 export CMAKE_ARGS="-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DTORCH_CUDA_ARCH_LIST=6.2"
 export BUILD_CAFFE2_OPS=OFF
 export USE_FBGEMM=OFF
@@ -52,6 +54,7 @@ wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | 
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/kitware.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 apt update
+apt update
 apt install -y cmake gcc g++
 apt install -y build-essential ninja-build libopenblas-dev
 apt install -y libjpeg-dev zlib1g-dev libavcodec-dev libavformat-dev libswscale-dev libopenblas-base
@@ -67,48 +70,73 @@ python3.8 -m pip install numpy==1.19.5 pandas Cython scikit-build ninja future -
 python3.8 -m pip install numpy==1.19.5 --ignore-installed
 python3.8 -m pip install cmake
 
-
+ touch d
+echo before cd app
+ls
+cd /app
+echo after cd app
+ls
 git clone --recursive --branch v1.12.0 https://github.com/pytorch/pytorch
-cd pytorch
-
+echo before cd pytorch
+ls
+cd /app/pytorch
+echo after cd pytorch
+ls
 sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
 
 #git submodule sync
 # git submodule update --init --recursive --jobs 0
 # git submodule update --init --recursive
 cd /app/pytorch/third_party/ios-cmake
-rm .git
-rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/leetal/ios-cmake .
 git clone https://github.com/leetal/ios-cmake .
 git clone https://github.com/leetal/ios-cmake .
 git checkout 8abaed637d56f1337d6e1d2c4026e25c1eade724
 
 cd /app/pytorch/third_party/psimd
-rm .git
-rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/Maratyszcza/psimd .
 git clone https://github.com/Maratyszcza/psimd .
 git clone https://github.com/Maratyszcza/psimd .
 git checkout 072586a71b55b7f8c584153d223e95687148a900
 
 cd /app/pytorch/third_party/QNNPACK
-rm .git
-rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/pytorch/QNNPACK .
 git clone https://github.com/pytorch/QNNPACK .
 git clone https://github.com/pytorch/QNNPACK .
 git checkout 7d2a4e9931a82adc3814275b6219a0af5fa345b6
 
 cd /app/pytorch/third_party/foxi
-rm .git
-rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/houseroad/foxi .
 git clone https://github.com/houseroad/foxi .
 git clone https://github.com/houseroad/foxi .
 git checkout c278588e34e535f0bb8f00df3880d26928038cad
 
-touch d
+cd /app/pytorch/third_party/python-enum
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
+git clone https://github.com/PeachPy/enum34.git .
+git clone https://github.com/PeachPy/enum34.git .
+git clone https://github.com/PeachPy/enum34.git .
+git checkout 4cfedc426c4e2fc52e3f5c2b4297e15ed8d6b8c7
+
 
 cd /app/pytorch
 ls third_party/pybind11
@@ -132,12 +160,13 @@ find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9
 #python3.8 -c "import numpy"
 #python3.8 -v setup.py --help
 python3.8 setup.py clean
-# python3.8 etup.py bdist_wheel
-# python3.8 setup.py install bdist_wheel
 python3.8 setup.py build
+python3.8 setup.py bdist_wheel
+python3.8 setup.py install bdist_wheel
 python3.8 setup.py install
 python3.8 -m pip install dist/*.whl
 python3.8 -m pip install build/*.whl
+cp -rfv /app/pytorch/dist/*.whl /app/
 
 
 # pip install ultralytics --ignore-installed

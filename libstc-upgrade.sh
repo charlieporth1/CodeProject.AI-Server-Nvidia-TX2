@@ -1,3 +1,4 @@
+#!/bin/bash
 strings /usr/lib/aarch64-linux-gnu/libstdc++.so.6 | grep GLIBCXX_3
 
 yes | sudo add-apt-repository ppa:ubuntu-toolchain-r/test

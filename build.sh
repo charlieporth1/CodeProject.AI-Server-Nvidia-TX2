@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo chmod +x *.sh
 cp -rfv /etc/nv* ~/
+cp -rfv 
 sudo rm /etc/resolv.conf
 sudo ln -s  /run/resolvconf/resolv.conf  /etc/resolv.conf 
 

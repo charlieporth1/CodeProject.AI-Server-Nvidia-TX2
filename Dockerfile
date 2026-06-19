@@ -147,10 +147,11 @@ RUN dpkg --configure -a
 
 WORKDIR /app/
 
-COPY ./start.sh .
 
-RUN git clone --branch v1.12.0 https://github.com/pytorch/pytorch
+RUN git clone  --branch v1.12.0 https://github.com/pytorch/pytorch
+RUN ls
 WORKDIR /app/pytorch
+RUN ls
 
 # RUN sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
 
@@ -161,22 +162,24 @@ RUN git submodule update --init --recursive --jobs 0
 RUN git submodule update --init --recursive
 
 WORKDIR /app/
-RUN chmod +x *.sh
 
 COPY ./pytorch-install-python3.8.sh .
+RUN chmod +x *.sh
 RUN bash ./pytorch-install-python3.8.sh
 
 COPY ./pytorch-install-python3.9.sh .
 RUN chmod +x *.sh
 
 WORKDIR /app/pytorch
-RUN git checkout -b v1.12.0
+# RUN git checkout -b v1.12.0
 
-RUN git submodule sync
-RUN git submodule update --init --recursive --jobs 0 
-RUN git submodule update --init --recursive
-RUN git submodule update --init --recursive --jobs 0
-RUN git submodule update --init --recursive
+# RUN git submodule sync
+# RUN git submodule update --init --recursive --jobs 0 || exit 0
+# RUN git submodule update --init --recursive || exit 0
+# RUN git submodule update --init --recursive --jobs 0 || exit 0
+# RUN git submodule update --init --recursive || exit 0
+
+WORKDIR /app/
 
 RUN bash ./pytorch-install-python3.9.sh
 
@@ -188,22 +191,31 @@ COPY pytorch-vision-build-py3.9.sh .
 RUN chmod +x *.sh
 RUN bash ./pytorch-vision-build-py3.9.sh
 
-RUN pip3 install ultralytics --ignore-installed
-RUN bash src/setup.sh
+RUN pip3 install ultralytics --no-deps
 
+COPY reinstall-numpy.sh .
+# RUN bash ./reinstall-numpy.sh
+
+RUN bash src/setup.sh
+RUN bash ./reinstall-numpy.sh
 
 # Build and publish the .NET server
 RUN cd /app/src/server; dotnet publish -c Release -o /app/server
 
+#COPY cuda-test.sh .
+#COPY numpy-test.sh .
+COPY ./start.sh .
+
 WORKDIR /app/server
 # Expose the default CodeProject.AI port
-EXPOSE 32168
-EXPOSE 5000
-ENV ASPNETCORE_URLS="http://+:32168 http://+:5000"
+# EXPOSE 32168
+# EXPOSE 5000
+# ENV ASPNETCORE_URLS="http://+:32168 http://+:5000"
 # Start the server
 # Use the official server start script as the Entrypoint
 # The entrypoint launches the dotnet runtime on the server assembly
-ENTRYPOINT ["dotnet", "CodeProject.AI.Server.dll"]
+ENTRYPOINT ["bash", "/app/start.sh"]
+# ENTRYPOINT ["dotnet", "CodeProject.AI.Server.dll"]
 
 # Use CMD to provide default arguments that can be overridden at runtime
-CMD ["--port", "32168"]
+# CMD ["--port", "32168"]
