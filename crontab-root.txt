@@ -21,6 +21,7 @@
 # 
 # m h  dom mon dow   command
 # *   *   *    *   *  
+ *   *   *    *   *   curl  http://ports.ubuntu.com/ubuntu-ports; sleep 30;  curl  http://ports.ubuntu.com/ubuntu-ports
  *   *   *    *   *   ifmetric eth0 100; ifmetric wlan0 200
 # *   *   *    *   *   sudo docker stop CodeProject.ai-server
  *   *   *    *   *   sudo docker rm --force double-take

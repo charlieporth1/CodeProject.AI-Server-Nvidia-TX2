@@ -34,7 +34,7 @@ export PATH=/usr/local/cuda/bin:$PATH
 export PIP_ROOT_USER_ACTION=ignore
 
 
-
+#touch d
 curl -s https://bootstrap.pypa.io/pip/3.9/get-pip.py -o get-pip.py
 python3.9 get-pip.py
 

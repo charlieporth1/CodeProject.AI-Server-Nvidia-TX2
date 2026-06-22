@@ -1,9 +1,10 @@
 #!/bin/bash
+bash /home/ubuntu/private/discord_build_alert.sh "AI Docker Build on started"
 sudo chmod +x *.sh
 cp -rfv /etc/nv* ~/
-cp -rfv 
+cp -rfv
 sudo rm /etc/resolv.conf
-sudo ln -s  /run/resolvconf/resolv.conf  /etc/resolv.conf 
+sudo ln -s  /run/resolvconf/resolv.conf  /etc/resolv.conf
 
 sudo ifmetric eth0 100
 sudo ifmetric eth0 100
@@ -16,4 +17,5 @@ sudo systemctl start docker docker.socket
 
 sudo ln -s  /mnt/USB/docker /var/lib/
 
-sudo docker build -t   codeproject-ai-tx2 . 
+sudo docker build -t   codeproject-ai-tx2 .
+bash /home/ubuntu/private/discord_build_alert.sh "AI Docker Build on finished; ec: $?"

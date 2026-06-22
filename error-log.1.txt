@@ -1,0 +1,59 @@
+Reading module settings.......done
+Processing module ObjectDetectionYOLOv5-6.2 1.10.0 (Internal)         
+
+Installing Python 3.8
+Python 3.8 is already installed
+Ensuring PIP in base python install...done
+Upgrading PIP in base python install...done
+Virtual Environment already present
+Checking for Python 3.8...(Found Python 3.8.0) All good
+Upgrading PIP in virtual environment...done
+Installing updated setuptools in venv...done
+
+Downloading Standard YOLO models... already exists...Expanding...done.
+Moving contents of models-yolo5-pt.zip to assets...done.
+Downloading Custom YOLO models... already exists...Expanding...done.
+Moving contents of custom-models-yolo5-pt.zip to custom-models...done.
+Installing Python packages for Object Detection (YOLOv5 6.2)
+Installing GPU-enabled libraries: If available
+Searching for python3-pip...All good.
+Ensuring PIP compatibility...done
+Python packages will be specified by requirements.linux.cuda.txt
+  - Installing Pandas, a data analysis / data manipulation tool...Already installed
+  - Installing CoreMLTools, for working with .mlmodel format models...Already installed
+  - Installing OpenCV, the Open source Computer Vision library...Already installed
+  - Installing Pillow, a Python Image Library...Already installed
+  - Installing SciPy, a library for mathematics, science, and engineering...Already installed
+  - Installing PyYAML, a library for reading configuration files...Already installed
+  - Installing PyTorch, an open source machine learning framework...Already installed
+  - Installing TorchVision, for working with computer vision models...Already installed
+  - Installing Ultralytics YoloV5 package for object detection in images...Already installed
+  - Installing Seaborn, a data visualization library based on matplotlib...Already installed
+  - Installing the CodeProject.AI SDK...Already installed
+Scanning modulesettings for downloadable models...No models specified
+Self test: Traceback (most recent call last):
+  File "detect_adapter.py", line 25, in <module>
+    from detect import do_detection
+  File "/app/modules/ObjectDetectionYOLOv5-6.2/detect.py", line 8, in <module>
+    from yolov5.models.common import DetectMultiBackend, AutoShape
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/__init__.py", line 1, in <module>
+    from yolov5.helpers import YOLOv5
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/helpers.py", line 3, in <module>
+    from yolov5.models.common import AutoShape, DetectMultiBackend
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/models/common.py", line 29, in <module>
+    from yolov5.utils.dataloaders import exif_transpose, letterbox
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/utils/dataloaders.py", line 30, in <module>
+    from yolov5.utils.augmentations import (Albumentations, augment_hsv, classify_albumentations, classify_transforms, copy_paste,
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/utils/augmentations.py", line 15, in <module>
+    from yolov5.utils.general import LOGGER, check_version, colorstr, resample_segments, segment2box, xywhn2xyxy
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/utils/general.py", line 40, in <module>
+    from yolov5.utils.metrics import box_iou, fitness
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/yolov5/utils/metrics.py", line 10, in <module>
+    import matplotlib.pyplot as plt
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/matplotlib/__init__.py", line 227, in <module>
+    _check_versions()
+  File "/app/runtimes/bin/ubuntu/python38/venv/lib/python3.8/site-packages/matplotlib/__init__.py", line 223, in _check_versions
+    raise ImportError(f"Matplotlib requires {modname}>={minver}; "
+ImportError: Matplotlib requires numpy>=1.20; you have 1.19.5
+Self-test failed
+Module setup time 00:03:17
