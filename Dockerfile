@@ -24,8 +24,11 @@ RUN apt update
 RUN apt update
 # python3.8-pip python3.8-venv python3.8-dev
 
-COPY install-python-versions.sh .
-RUN bash ./install-python-versions.sh
+COPY install-python-v3.9.sh .
+RUN bash ./install-python-v3.9.sh 
+
+COPY install-python-v3.10.sh .
+RUN bash ./install-python-v3.10.sh 
 
 # python3.9-pip python3.9-venv python3.9-dev
 # RUN apt install -y python3.10
