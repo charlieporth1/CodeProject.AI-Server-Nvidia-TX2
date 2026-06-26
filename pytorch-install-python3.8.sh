@@ -48,17 +48,6 @@ update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 
-apt install -y software-properties-common lsb-release wget ca-certificates gnupg
-wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/kitware.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-
-apt update
-apt update
-apt install -y cmake gcc g++
-apt install -y build-essential ninja-build libopenblas-dev
-apt install -y libjpeg-dev zlib1g-dev libavcodec-dev libavformat-dev libswscale-dev libopenblas-base
-apt install -y libjpeg-dev libopenblas-dev libopenmpi-dev libomp-dev zlib1g-dev libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1
-
 python3.8 -m pip uninstall torch torchvision torchaudio --yes
 
 # Install it
@@ -69,23 +58,17 @@ python3.8 -m pip install numpy==1.19.5 pandas Cython scikit-build ninja future -
 python3.8 -m pip install numpy==1.19.5 --ignore-installed
 python3.8 -m pip install cmake
 
- touch d
-echo before cd app
-ls
 cd /app
-echo after cd app
-ls
 git clone --recursive --branch v1.12.0 https://github.com/pytorch/pytorch
-echo before cd pytorch
-ls
+
 cd /app/pytorch
-echo after cd pytorch
-ls
+
 sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
 
-#git submodule sync
-# git submodule update --init --recursive --jobs 0
-# git submodule update --init --recursive
+git submodule sync
+git submodule update --init --recursive --jobs 0
+git submodule update --init --recursive
+
 cd /app/pytorch/third_party/ios-cmake
 rm -rfv .git
 rm -rfv *
@@ -141,11 +124,6 @@ cd /app/pytorch
 ls third_party/pybind11
 
 sed -i 's|"Manages CMake."|import distutils.version|g' /app/pytorch/tools/setup_helpers/cmake.py
-# sed -i 's|cmake_minimum_required\(VERSION 3.1.3)|cmake_minimum_required\(VERSION 3.5)|g' third_party/protobuf/cmake/CMakeLists.txt
-# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 3.1|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/cpuinfo/deps/clog/CMakeLists.txt
-# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 2.8.12|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/FP16/CMakeLists.txt
-# sed -i 's|CMAKE_MINIMUM_REQUIRED\(VERSION 2.8.12|CMAKE_MINIMUM_REQUIRED\(VERSION 3.5|g' third_party/psimd/CMakeLists.txt
-# sed -i 's|cmake_minimum_required\(VERSION 2.8.12|cmake_minimum_required\(VERSION 3.5|g' third_party/googletest/CMakeLists.txt
 find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_minimum_required\(VERSION [0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
 find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_minimum_required\(VERSION [0-9]+\.[0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
 find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/CMAKE_MINIMUM_REQUIRED\(VERSION [0-9]+\.[0-9]+/cmake_minimum_required\(VERSION 3.5/g' X
@@ -167,8 +145,6 @@ python3.8 -m pip install dist/*.whl
 python3.8 -m pip install build/*.whl
 cp -rfv /app/pytorch/dist/*.whl /app/
 
-
-# pip install ultralytics --ignore-installed
 
 # Py 3.8 pytorch install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10

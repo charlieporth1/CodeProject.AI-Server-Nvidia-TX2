@@ -21,8 +21,14 @@
 # 
 # m h  dom mon dow   command
 # *   *   *    *   *  
- *   *   *    *   *   curl  http://ports.ubuntu.com/ubuntu-ports; sleep 30;  curl  http://ports.ubuntu.com/ubuntu-ports
+ *   *   *    *   *   curl https://deb.nodesource.com/node_10.x; sleep 30; curl https://deb.nodesource.com/node_10.x
+ *   *   *    *   *   curl http://ports.ubuntu.com/ubuntu-ports; sleep 30; curl http://ports.ubuntu.com/ubuntu-ports
  *   *   *    *   *   ifmetric eth0 100; ifmetric wlan0 200
+ *   *   *    *   *   echo nameserver 100.100.100.100 | sudo tee /etc/resolv.conf 
+ *   *   *    *   *   sudo tailscale set --accept-dns
+ *   *   *    *   *   sudo tailscale set --accept-routes
 # *   *   *    *   *   sudo docker stop CodeProject.ai-server
  *   *   *    *   *   sudo docker rm --force double-take
+ *   *   *    *   *   sudo mount /dev/disk/by-id/usb-MZ7LH480_HBHQ0D3_20211019-0\:0-part2 /mnt/USB
+ *   *   *    *   *   sudo systemctl start docker docker.socket
  *   *   *    *   *   dig ports.ubuntu.com github.com release-assets.githubusercontent.com repo.download.nvidia.com apt.kitware.com pypi.org deb.nodesource.com ppa.launchpad.net www.python.org dot.net

@@ -1,8 +1,9 @@
 #!/bin/bash
 # https://qengineering.eu/install-pytorch-on-jetson-nano.html
 # https://gemini.google.com/app/220b370ab2f69811
+# Py 3.9 pytorch install
 # Set environment variables for the Jetson build
-. /app/runtimes/bin/ubuntu/python38/venv/bin/activate
+. /app/runtimes/bin/ubuntu/python39/venv/bin/activate
 export MAX_JOBS=6
 export BUILD_VERSION=0.13.0
 export CMAKE_ARGS="-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DTORCH_CUDA_ARCH_LIST=6.2"
@@ -13,7 +14,6 @@ export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
 # Force CUDA compilation
 export FORCE_CUDA=1
-
 
 export OPENBLAS_CORETYPE=ARMV8
 export USE_NCCL=0
@@ -34,15 +34,25 @@ export PATH=/usr/local/cuda/bin:$PATH
 export PIP_ROOT_USER_ACTION=ignore
 
 
-# touch d
-curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
-python3.8 get-pip.py
+#touch d
+curl -s https://bootstrap.pypa.io/pip/3.9/get-pip.py -o get-pip.py
+python3.9 get-pip.py
 
-update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
+# Py 3.9 pytorch install
+update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 10
 update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
+update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.9 1
+update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
+update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
+
+apt update
+apt update
+apt-get install -y build-essential cmake ninja-build libopenblas-dev
+apt-get install -y zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev python3.8-dev libopenblas-base
+apt-get install -y libopenblas-dev libopenmpi-dev libomp-dev zlib1g-dev libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1
+
+apt install -y ffmpeg libpng-dev libpng-tools libjpeg-dev libjpeg8-dev
+apt install curl bzip2 wget -y
 
 if ! command -v conda; then
 	# 1. Download the ARM64 (aarch64) installer
@@ -54,19 +64,25 @@ fi
 
 conda update -n base -c defaults conda
 
-python3.8 -m pip install setuptools wheel build Cython
-python3.8 -m pip install --upgrade pip setuptools wheel build
-
-
-#wget https://download-r2.pytorch.org/whl/torchvision-0.12.0-cp38-cp38-manylinux2014_aarch64.whl#sha256=0744902f2265d4c3e83c44a06b567df312e4a9faf8c92620016c7bed7056b5a7
-#python3.8 -m python3.8 -m pip install *cp38*.whl
 # Make sure dir exists
 ls $CUDA_HOME
+
+
+python3.9 -m pip install setuptools wheel build Cython
+python3.9 -m pip install --upgrade pip -setuptools wheel build
+
+# Clone the specific version matching PyTorch 1.10.0
+#wget https://download-r2.pytorch.org/whl/torchvision-0.12.0-cp39-cp39-manylinux2014_aarch64.whl#sha256=b93a767f44e3933cb3b01a6fe9727db54590f57b7dac09d5aaf15966c6c151dd
+#python3.8 -m python3.9 -m pip install *cp38*.whl
+
 # Clone the specific version matching PyTorch 1.10.0
 git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
 git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
 git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
+git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
 cd torchvision
+
+git checkout v0.13.0
 
 git submodule sync
 git submodule update --init --recursive --jobs 0
@@ -88,31 +104,28 @@ find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9
 python3.8 -m pip install -r requirements.txt
 python3.8 -m pip install -r ./docs/requirements.txt
 
-#python3.8 -c "import numpy"
-#python3.8 -v setup.py --help
-python3.8 setup.py clean
-
+#python3.9 -c "import numpy"
+#python3.9 -v setup.py --help
+python3.9 setup.py clean
 
 # Build and install
-python3.8 setup.py clean
-python3.8 setup.py build
-python3.8 setup.py bdist_wheel
-python3.8 setup.py install
-python3.8 setup.py install bdist_wheel
-python3.8 -m pip install dist/*.whl
-python3.8 -m pip install build/*.whl
+python3.9 setup.py clean
+python3.9 setup.py build
+python3.9 setup.py bdist_wheel
+python3.9 setup.py install
+python3.9 setup.py install bdist_wheel
+python3.9 -m pip install dist/*.whl
+python3.9 -m pip install build/*.whl
 cp -rfv /app/torchvision/dist/*.whl /app
-
 cd ..
 
-# python3.8 -m pip install ultralytics --no-deps
+python3.9 -m pip install ultralytics --no-deps
 
 # Py 3.9 pytorch install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
+update-alternatives --install /usr/local/bin/pip3 pip3.8 2
+update-alternatives --install /usr/local/bin/pip pip pip3.8 2
 # Set environment variables for the Jetson build
 
 exit 0

@@ -45,15 +45,6 @@ update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.9 1
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
 
-apt update
-apt update
-apt-get install -y build-essential cmake ninja-build libopenblas-dev
-apt-get install -y zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev python3.8-dev libopenblas-base
-apt-get install -y libopenblas-dev libopenmpi-dev libomp-dev zlib1g-dev libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1
-
-apt install -y ffmpeg libpng-dev libpng-tools libjpeg-dev libjpeg8-dev
-apt install curl bzip2 wget -y
-
 if ! command -v conda; then
 	# 1. Download the ARM64 (aarch64) installer
 	wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
@@ -82,7 +73,7 @@ git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
 git clone --branch v0.13.0 https://github.com/pytorch/vision torchvision
 cd torchvision
 
-git checkout v0.13.0
+# git checkout v0.13.0
 
 git submodule sync
 git submodule update --init --recursive --jobs 0
@@ -119,7 +110,7 @@ python3.9 -m pip install build/*.whl
 cp -rfv /app/torchvision/dist/*.whl /app
 cd ..
 
-python3.9 -m pip install ultralytics --no-deps
+# python3.9 -m pip install ultralytics --no-deps
 
 # Py 3.9 pytorch install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10

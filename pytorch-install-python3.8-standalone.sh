@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://qengineering.eu/install-pytorch-on-jetson-nano.html
-. /app/runtimes/bin/ubuntu/python39/venv/bin/activate
+. /app/runtimes/bin/ubuntu/python38/venv/bin/activate
 export CMAKE_ARGS="-DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DTORCH_CUDA_ARCH_LIST=6.2"
 export BUILD_CAFFE2_OPS=OFF
 export USE_FBGEMM=OFF
@@ -35,74 +35,107 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 export PATH=/usr/local/cuda/bin:$PATH
 export PIP_ROOT_USER_ACTION=ignore
 
-# touch d 
 # https://gemini.google.com/app/8cc1a417fac7f902
 # https://gemini.google.com/app/220b370ab2f69811
 
-curl -s https://bootstrap.pypa.io/pip/3.9/get-pip.py -o get-pip.py
-python3.9 get-pip.py
+curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+python3.8 get-pip.py
 
-# Py 3.9 pytorch install
-update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 10
+# Py 3.8 pytorch install
+update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.9 1
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
-update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.9 2
+update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
+update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
+update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 
-python3.9 -m pip uninstall torch torchvision torchaudio --yes
+apt install -y software-properties-common lsb-release wget ca-certificates gnupg
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/kitware.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+
+apt update
+apt update
+apt install -y cmake gcc g++
+apt install -y build-essential ninja-build libopenblas-dev
+apt install -y libjpeg-dev zlib1g-dev libavcodec-dev libavformat-dev libswscale-dev libopenblas-base
+apt install -y libjpeg-dev libopenblas-dev libopenmpi-dev libomp-dev zlib1g-dev libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1
+
+python3.8 -m pip uninstall torch torchvision torchaudio --yes
 
 # Install it
-python3.9 -m pip install setuptools wheel build Cython
-python3.9 -m pip install --upgrade pip setuptools wheel build
-python3.9 -m pip install distutils
-python3.9 -m pip install numpy==1.19.5 pandas Cython pyyaml scikit-build ninja future typing_extensions --ignore-installed
-python3.9 -m pip install numpy==1.19.5 --ignore-installed
-python3.9 -m pip install cmake
+python3.8 -m pip install setuptools wheel build Cython
+python3.8 -m pip install --upgrade pip setuptools wheel build
+python3.8 -m pip install distutils
+python3.8 -m pip install numpy==1.19.5 pandas Cython scikit-build ninja future --ignore-installed
+python3.8 -m pip install numpy==1.19.5 --ignore-installed
+python3.8 -m pip install cmake
 
-
+ touch d
+echo before cd app
+ls
+cd /app
+echo after cd app
+ls
 git clone --recursive --branch v1.12.0 https://github.com/pytorch/pytorch
+echo before cd pytorch
+ls
 cd /app/pytorch
-
-
+echo after cd pytorch
+ls
 sed -i 's|third_party/breakpad|google/breakpad|g ' .gitmodules
 
-git submodule sync
-git submodule update --init --recursive --jobs 0
-git submodule update --init --recursive
-
+#git submodule sync
+# git submodule update --init --recursive --jobs 0
+# git submodule update --init --recursive
 cd /app/pytorch/third_party/ios-cmake
-# rm .git
-# rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/leetal/ios-cmake .
 git clone https://github.com/leetal/ios-cmake .
 git clone https://github.com/leetal/ios-cmake .
-# git checkout 8abaed637d56f1337d6e1d2c4026e25c1eade724
+git checkout 8abaed637d56f1337d6e1d2c4026e25c1eade724
 
 cd /app/pytorch/third_party/psimd
-# rm .git
-# rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/Maratyszcza/psimd .
 git clone https://github.com/Maratyszcza/psimd .
 git clone https://github.com/Maratyszcza/psimd .
-# git checkout 072586a71b55b7f8c584153d223e95687148a900
+git checkout 072586a71b55b7f8c584153d223e95687148a900
 
 cd /app/pytorch/third_party/QNNPACK
-# rm .git
-# rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/pytorch/QNNPACK .
 git clone https://github.com/pytorch/QNNPACK .
 git clone https://github.com/pytorch/QNNPACK .
-# git checkout 7d2a4e9931a82adc3814275b6219a0af5fa345b6
+git checkout 7d2a4e9931a82adc3814275b6219a0af5fa345b6
 
 cd /app/pytorch/third_party/foxi
-# rm .git
-# rm *
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
 git clone https://github.com/houseroad/foxi .
 git clone https://github.com/houseroad/foxi .
 git clone https://github.com/houseroad/foxi .
-# git checkout c278588e34e535f0bb8f00df3880d26928038cad
+git checkout c278588e34e535f0bb8f00df3880d26928038cad
 
-touch d
+cd /app/pytorch/third_party/python-enum
+rm -rfv .git
+rm -rfv *
+rm -rfv .*
+find . -delete
+git clone https://github.com/PeachPy/enum34.git .
+git clone https://github.com/PeachPy/enum34.git .
+git clone https://github.com/PeachPy/enum34.git .
+git checkout 4cfedc426c4e2fc52e3f5c2b4297e15ed8d6b8c7
+
 
 cd /app/pytorch
 ls third_party/pybind11
@@ -125,19 +158,19 @@ find . -iname CMakeLists.txt | xargs -IX sed -i -E 's/cmake_policy\(VERSION [0-9
 
 #python3.8 -c "import numpy"
 #python3.8 -v setup.py --help
-python3.9 setup.py clean
-python3.9 setup.py bdist_wheel
-python3.9 setup.py build
-python3.9 setup.py install bdist_wheel
-python3.9 setup.py install
-python3.9 -m pip install dist/*.whl
-python3.9 -m pip install build/*.whl
-cp -rfv /app/pytorch/dist/*.whl /app
+python3.8 setup.py clean
+python3.8 setup.py build
+python3.8 setup.py bdist_wheel
+python3.8 setup.py install bdist_wheel
+python3.8 setup.py install
+python3.8 -m pip install dist/*.whl
+python3.8 -m pip install build/*.whl
+cp -rfv /app/pytorch/dist/*.whl /app/
 
 
 # pip install ultralytics --ignore-installed
 
-# Py 3.9 pytorch install
+# Py 3.8 pytorch install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
@@ -145,7 +178,6 @@ update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 
 exit 0
-
 # pip.6
 # Download the wheel
 # wget https://developer.nvidia.com/w/compute/redist/jp/v461/pytorch/torch-1.11.0a0+17540c5+nv22.01-cp36-cp36m-linux_aarch64.whl

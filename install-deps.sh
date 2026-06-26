@@ -3,9 +3,9 @@
 #!/bin/bash
 
 # Ensure script exits if any command fails
-set -e
+set +e
 curl http://ports.ubuntu.com/ubuntu-ports
-
+curl https://deb.nodesource.com/node_10.x
 # 1. Initial Update
 apt update
 apt update
@@ -16,19 +16,22 @@ apt install -y ca-certificates
 apt install -y curl
 apt install -y gnupg
 apt install -y gpg
+apt install -y gpgv
+apt install -y gpgv2
 apt install -y lsb-release
 apt install -y software-properties-common
 apt install -y wget
 
 # 3. Add Custom Repositories
 # DeadSnakes PPA
-echo 'y' | add-apt-repository -y ppa:deadsnakes/ppa
+yes | add-apt-repository -y ppa:deadsnakes/ppa
 
 # Kitware Repo
 wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/kitware.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 curl http://ports.ubuntu.com/ubuntu-ports
+curl https://deb.nodesource.com/node_10.x
 # 4. Update after adding custom repositories
 apt update
 apt update

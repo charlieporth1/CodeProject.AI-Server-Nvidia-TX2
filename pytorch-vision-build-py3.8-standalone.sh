@@ -34,7 +34,7 @@ export PATH=/usr/local/cuda/bin:$PATH
 export PIP_ROOT_USER_ACTION=ignore
 
 
-# touch d
+touch d
 curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
 python3.8 get-pip.py
 
@@ -43,6 +43,15 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 update-alternatives --install /usr/local/bin/pip3 pip3 /usr/local/bin/pip3.8 1
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
 update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3.8 2
+
+apt update
+apt update
+apt-get install -y build-essential cmake ninja-build libopenblas-dev
+apt-get install -y zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev python3.8-dev libopenblas-base
+apt-get install -y libopenblas-dev libopenmpi-dev libomp-dev zlib1g-dev libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1
+
+apt install -y ffmpeg libpng-dev libpng-tools libjpeg-dev libjpeg8-dev
+apt install curl bzip2 wget -y
 
 if ! command -v conda; then
 	# 1. Download the ARM64 (aarch64) installer
@@ -105,7 +114,7 @@ cp -rfv /app/torchvision/dist/*.whl /app
 
 cd ..
 
-# python3.8 -m pip install ultralytics --no-deps
+python3.8 -m pip install ultralytics --no-deps
 
 # Py 3.9 pytorch install
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
