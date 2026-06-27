@@ -12,4 +12,7 @@ make altinstall
 
 curl -s https://bootstrap.pypa.io/pip/3.9/get-pip.py -o get-pip.py
 python3.9 get-pip.py
+curl -s https://bootstrap.pypa.io/pip/3.9/get-pip.py -o get-pip.py
+python3.9 get-pip.py
 
+exit 0
