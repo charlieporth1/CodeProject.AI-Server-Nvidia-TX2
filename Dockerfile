@@ -1,5 +1,5 @@
 # Use NVIDIA's official L4T ML image for JetPack 4.6 (Ubuntu 18.04 + CUDA 10.2)
-FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
+FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3 as builder
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -48,9 +48,15 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # Install Server dependencies
-RUN pip3 install wheel setuptools
-RUN pip3 install --upgrade pip
-RUN pip3 install -r src/SDK/Python/requirements.txt
+RUN python3.8 -m pip install wheel setuptools
+RUN python3.8 -m pip install --upgrade pip
+RUN python3.8 -m pip install --upgrade wheel setuptools
+RUN python3.8 -m pip install -r src/SDK/Python/requirements.txt
+
+RUN python3.9 -m pip install wheel setuptools
+RUN python3.9 -m pip install --upgrade pip
+RUN python3.9 -m pip install --upgrade wheel setuptools
+RUN python3.9 -m pip install -r src/SDK/Python/requirements.txt
 
 
 COPY ./nv_boot_control.conf /etc/
