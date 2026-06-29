@@ -1,11 +1,8 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Ensure script exits if any command fails
 set +e
-curl http://ports.ubuntu.com/ubuntu-ports
-curl https://deb.nodesource.com/node_10.x
+
 # 1. Initial Update
 apt update
 apt update
@@ -22,6 +19,9 @@ apt install -y lsb-release
 apt install -y software-properties-common
 apt install -y wget
 
+# Update CA
+update-ca-certificates
+
 # 3. Add Custom Repositories
 # DeadSnakes PPA
 yes | add-apt-repository -y ppa:deadsnakes/ppa
@@ -30,8 +30,6 @@ yes | add-apt-repository -y ppa:deadsnakes/ppa
 wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/kitware.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
-curl http://ports.ubuntu.com/ubuntu-ports
-curl https://deb.nodesource.com/node_10.x
 # 4. Update after adding custom repositories
 apt update
 apt update
@@ -73,9 +71,14 @@ apt install -y ninja-build
 apt install -y openssl
 apt install -y psmisc
 apt install -y python3-pip
-apt install -y python3.8
-apt install -y python3.8-dev
-apt install -y python3.8-venv
+# apt install -y python3.8
+# apt install -y python3.8-pip
+# apt install -y python3.8-dev
+# apt install -y python3.8-venv
+# apt install -y python3.9
+# apt install -y python3.9-pip
+# apt install -y python3.9-dev
+# apt install -y python3.9-venv
 apt install -y sudo
 apt install -y tk-dev
 apt install -y unzip

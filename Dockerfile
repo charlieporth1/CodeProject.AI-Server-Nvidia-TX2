@@ -6,9 +6,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ENV RUN_IN_DOCKER=true
 ENV OPENBLAS_CORETYPE=ARMV8
-ENV ASPNETCORE_URLS="http://+:32168 http://+:5000"
 ENV PATH=$PATH:/root/.dotnet
 ENV DOTNET_ROOT=/root/.dotnet
+ENV ASPNETCORE_URLS="http://+:32168 http://+:5000"
 
 
 # Set working directory
@@ -23,6 +23,9 @@ RUN bash ./install-deps.sh
 RUN apt update
 RUN apt update
 # python3.8-pip python3.8-venv python3.8-dev
+
+COPY install-python-v3.8.sh .
+RUN bash ./install-python-v3.8.sh 
 
 COPY install-python-v3.9.sh .
 RUN bash ./install-python-v3.9.sh 
