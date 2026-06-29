@@ -37,8 +37,12 @@ RUN curl -sSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
 RUN chmod +x dotnet-install.sh
 RUN ./dotnet-install.sh --channel 9.0
 
+# RUN mkdir -p code-project-ai-server
 # Clone CodeProject.AI Server source code
-RUN git clone https://github.com/codeproject/CodeProject.AI-Server.git .
+RUN git clone https://github.com/codeproject/CodeProject.AI-Server.git code-project-ai-server
+RUN cp -rfv code-project-ai-server/* .
+RUN cp -rfv code-project-ai-server/.* . || exit 0
+
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
@@ -63,6 +67,7 @@ RUN bash ./install-custom-nvidia-repos.sh
 # 5. Update apt to fetch the newly added NVIDIA packages
 COPY install-custom-nvidia.sh .
 RUN bash ./install-custom-nvidia.sh 
+RUN bash ./install-custom-nvidia.sh 
 
 RUN git clone  --branch v1.12.0 https://github.com/pytorch/pytorch
 WORKDIR /app/pytorch
@@ -75,7 +80,10 @@ RUN git submodule update --init --recursive
 
 WORKDIR /app/
 
-RUN bash src/setup.sh
+RUN python3.8 -m pip install codeproject_ai_sdk
+RUN python3.9 -m pip install codeproject_ai_sdk
+
+RUN bash src/setup.sh || exit 0
 
 COPY ./pytorch-install-python3.8.sh .
 RUN bash ./pytorch-install-python3.8.sh
@@ -94,6 +102,9 @@ RUN bash ./install-ultralytics.sh
 
 COPY reinstall-numpy.sh .
 RUN bash ./reinstall-numpy.sh
+
+COPY install-extra-pip.sh .
+RUN bash ./install-extra-pip.sh
 
 RUN bash src/setup.sh
 RUN bash src/setup.sh --modules FaceProcessing || exit 0
