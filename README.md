@@ -19,3 +19,8 @@ Planned updates.
 Optimized python3.8 versions
 Tensorflow
 Other AI modules
+
+
+
+## RUN
+`sudo docker pull otihoith/codeproject-ai-tx2:v0.1`
