@@ -3,6 +3,8 @@ This project is to run [CodeProject.AI-Server](https://github.com/codeproject/Co
 Since CodeProject.AI-Server doesn't support CUDA 10.2 the default CodeProject.AI-Server code only runs on the CPU
 Running on the CPU has an latency for the avg AI request to run anywhere between 60,000ms to 120,000ms
 Running on CUDA 10.2 and on the GPU allows for a ~750% reduction in processing time at anywhere from 25ms to 210ms. On unoptimized version of python in my POC
+Running on the GPU also reduces the CPU load massively. With a CPU image the CPU is in almost constant 100% usage with the GPU image the CPU is at 25% usage
+This also reduces your engery usage massively
 
 This project compiles
 pytorch
