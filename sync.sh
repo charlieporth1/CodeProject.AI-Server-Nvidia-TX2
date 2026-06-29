@@ -1,5 +1,5 @@
 #!/bin/bash
-scp tegra-ubuntu:'~/*.sh*' .
-scp tegra-ubuntu:~/Dockerfile .
-scp tegra-ubuntu:'~/crontab*.txt' .
-scp tegra-ubuntu:'~/*.whl' .
+rsync --copy-links -r tegra-ubuntu:'~/*.sh*' .
+rsync --copy-links -r tegra-ubuntu:~/Dockerfile .
+rsync --copy-links -r tegra-ubuntu:'~/crontab*.txt' .
+rsync --copy-links -r tegra-ubuntu:'~/*.whl' .

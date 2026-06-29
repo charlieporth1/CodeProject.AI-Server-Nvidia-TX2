@@ -47,7 +47,7 @@ RUN cp -rfv code-project-ai-server/* .
 RUN cp -rfv code-project-ai-server/.* . || exit 0
 
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.8 10
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # Install Server dependencies
