@@ -73,12 +73,12 @@ apt install -y psmisc
 apt install -y python3-pip
 # apt install -y python3.8
 # apt install -y python3.8-pip
-# apt install -y python3.8-dev
-# apt install -y python3.8-venv
+apt install -y python3.8-dev
+apt install -y python3.8-venv
 # apt install -y python3.9
 # apt install -y python3.9-pip
-# apt install -y python3.9-dev
-# apt install -y python3.9-venv
+apt install -y python3.9-dev
+apt install -y python3.9-venv
 apt install -y sudo
 apt install -y tk-dev
 apt install -y unzip
@@ -89,3 +89,26 @@ apt install -y libavformat-dev
 apt install -y libavutil-dev
 apt install -y libswscale-dev
 apt install -y libbz2-dev
+apt install -y checkinstall
+apt install -y libreadline-gsl-dev
+apt install -y libsqlite3-dev
+apt install -y libbz2-dev
+apt install -y libffi-dev
+apt install -y liblzma-dev
+apt install -y tk-dev
+apt install -y libgdbm-dev
+apt install -y libc6-dev
+apt install -y libncursesw5-dev
+apt install -y zlib1g-dev
+apt install -y libjpeg-dev
+apt install -y zlib1g-dev
+apt install -y libavcodec-dev
+apt install -y libavformat-dev
+apt install -y libswscale-dev
+apt install -y libv4l-dev
+apt install -y libxvidcore-dev
+apt install -y libx264-dev
+apt install -y libatlas-base-dev
+apt install -y gfortran
+apt install -y libblas-dev
+apt install -y liblapack-dev

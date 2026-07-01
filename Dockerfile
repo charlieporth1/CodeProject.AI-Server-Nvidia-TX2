@@ -112,8 +112,8 @@ RUN bash ./install-ultralytics.sh
 COPY reinstall-numpy.sh .
 RUN bash ./reinstall-numpy.sh
 
-COPY install-extra-pip.sh .
-RUN bash ./install-extra-pip.sh
+# COPY install-extra-pip.sh .
+# RUN bash ./install-extra-pip.sh
 
 RUN bash src/setup.sh
 RUN bash src/setup.sh --modules FaceProcessing || exit 0

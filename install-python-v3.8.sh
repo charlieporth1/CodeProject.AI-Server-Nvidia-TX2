@@ -14,7 +14,7 @@ cd /opt/Python-3.8.20/
         --with-ensurepip=install \
         --prefix=/usr/local LDFLAGS="-Wl,--rpath=/usr/local/lib"
 
-make -j$(nproc) altinstall
+make -j8 altinstall
 
 curl -s https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
 python3.8 get-pip.py

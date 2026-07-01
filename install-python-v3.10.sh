@@ -12,7 +12,7 @@ cd /opt/Python-3.10.20/
 	--with-lto \
 	--with-ensurepip=install \
 	--prefix=/usr/local LDFLAGS="-Wl,--rpath=/usr/local/lib"
-make -j$(nproc) altinstall
+make -j8 altinstall
 
 curl -s https://bootstrap.pypa.io/pip/3.10/get-pip.py -o get-pip.py
 python3.10 get-pip.py

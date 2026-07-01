@@ -1,6 +1,4 @@
-#!/bin/bash
 
-apt-get install -y liblzma-dev
 #python3.8 -m pip install ultralytics --no-deps
 #python3.8 -m pip install tqdm matplotlib==3.6.0 openvino onnx ONNXruntime scipy psutil polars ultralytics-thop nvidia-ml-py opencv-python pyyaml requests
 #python3.9 -m pip install ultralytics --no-deps

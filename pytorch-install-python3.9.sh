@@ -16,7 +16,7 @@ export USE_CUDNN=ON
 export USE_NCCL=OFF
 export USE_SYSTEM_NCCL=OFF
 export USE_OPENCV=OFF
-export MAX_JOBS=6
+export MAX_JOBS=8
 # set path to ccache
 export OPENBLAS_CORETYPE=ARMV8
 export USE_NCCL=0
