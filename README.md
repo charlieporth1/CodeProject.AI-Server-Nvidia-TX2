@@ -26,3 +26,6 @@ Other AI modules
 
 ## RUN
 `sudo docker pull otihoith/codeproject-ai-tx2:v0.1`
+
+## Image URL
+[codeproject-ai-tx2](https://hub.docker.com/r/otihoith/codeproject-ai-tx2)
